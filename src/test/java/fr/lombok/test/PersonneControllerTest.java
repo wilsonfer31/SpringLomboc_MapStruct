@@ -1,4 +1,4 @@
-package fr.webTest.webTest;
+package fr.lombok.test;
 
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;

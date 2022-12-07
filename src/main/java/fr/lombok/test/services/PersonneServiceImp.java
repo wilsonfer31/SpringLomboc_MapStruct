@@ -1,48 +1,49 @@
 package fr.lombok.test.services;
 
 
-import java.util.ArrayList;
+
+
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import fr.lombok.test.dto.PersonneDto;
 import fr.lombok.test.entities.Personne;
+import fr.lombok.test.mappers.PersonneMapper;
 import fr.lombok.test.repositories.PersonneRepository;
-import fr.lombok.test.tools.DtoTools;
+import lombok.RequiredArgsConstructor;
 
-
+@RequiredArgsConstructor
+@Transactional
 @Service
 public class PersonneServiceImp implements PersonneService {
 	
-	@Autowired
-	private PersonneRepository personneRepository;
+
+	private final PersonneRepository personneRepository;
+	
+	private final PersonneMapper personneMaper;
+
 
 	@Override
 	public List<PersonneDto> getAll() {
-		List<Personne> personnes = personneRepository.findAll();
-		List<PersonneDto> result = new ArrayList<PersonneDto>();
-		for (Personne p : personnes) {
-			result.add(DtoTools.convert(p, PersonneDto.class));
-		}
-		return result;
+		List<Personne> personnes = personneRepository.findAll();		
+		return personneMaper.toListPersonneDto(personnes);
 	}
 
 	@Override
 	public PersonneDto getById(long id) {
 		Optional<Personne> v = personneRepository.findById(id);
-		if (v.isPresent())
-			return DtoTools.convert(v.get(), PersonneDto.class);
+		return v.isPresent() ?  personneMaper.toPersonneDto(v.get()) : null;
 
-		return null;
 	}
 
 	@Override
 	public PersonneDto saveOrUpdate(PersonneDto pDto) throws Exception {
 
-		Personne p = DtoTools.convert(pDto, Personne.class);
+		Personne p = personneMaper.toPersonne(pDto);
 		
 	
 	
@@ -61,7 +62,7 @@ public class PersonneServiceImp implements PersonneService {
 			throw new Exception("La personne que vous voulez enregister a plus de 150 ans");
 		}
 
-		return DtoTools.convert(p, PersonneDto.class);
+		return personneMaper.toPersonneDto(p);
 	}
 
 	@Override
@@ -73,11 +74,7 @@ public class PersonneServiceImp implements PersonneService {
 	@Override
 	public List<PersonneDto> getAllByAlphaOrder() {
 		List<Personne> personnes = personneRepository.findAllByOrderByNomAsc();
-		List<PersonneDto> result = new ArrayList<PersonneDto>();
-		for (Personne p : personnes) {
-			result.add(DtoTools.convert(p, PersonneDto.class));
-		}
-		return result;
+		return personneMaper.toListPersonneDto(personnes);
 	
 		
 	}

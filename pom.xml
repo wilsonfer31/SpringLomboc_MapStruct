@@ -26,6 +26,8 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<lombok.version>1.18.12</lombok.version>
+		<mapstruct.version>1.3.1.Final</mapstruct.version>
+		
 	</properties>
 
 	<!-- Bibliothéques à intégrer dans le projet -->
@@ -57,9 +59,21 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>${lombok.version}</version><!--$NO-MVN-MAN-VER$-->
+			<version>${lombok.version}</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
-
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${mapstruct.version}</version>
+			 
+		</dependency>
+			<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct-processor</artifactId>
+			<version>${mapstruct.version}</version>
+			 
+		</dependency>
+   
 	</dependencies>
 
 	<build>
@@ -68,7 +82,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
 		</plugins>
+		
 	</build>
 
 </project>

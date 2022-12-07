@@ -22,10 +22,11 @@ public class PersonneDto implements Serializable{
 
 
 	public int getAgeActuelle() {
-		LocalDate DateMaintenant = LocalDate.now();
-		AgeActuelle = Period.between(this.getDateDeNaissance(), DateMaintenant).getYears();
+		AgeActuelle = Period.between(this.getDateDeNaissance(), LocalDate.now()).getYears();
 		return AgeActuelle;
 	}
+	
+
 
 
 	public PersonneDto(long id, String nom, String prenom, LocalDate dateDeNaissance, int ageActuelle) {

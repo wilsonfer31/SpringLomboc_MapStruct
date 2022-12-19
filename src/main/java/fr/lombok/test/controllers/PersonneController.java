@@ -1,7 +1,7 @@
 package fr.lombok.test.controllers;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +29,11 @@ public class PersonneController {
 	private PersonneService personneService;
 	
 	@GetMapping(value="/getbyOrder", produces = "application/json")
-	public List<PersonneDto> getAllbyAlphaOrder(){
-		return personneService.getAllByAlphaOrder();
+	public ResponseEntity<List<PersonneDto>> getAllbyAlphaOrder(){
+
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(personneService.getAllByAlphaOrder());
 	}
 
 	@GetMapping(value="/{id}",  produces = "application/json")
@@ -51,8 +54,11 @@ public class PersonneController {
 		
 	
 		@PutMapping(consumes="application/json", produces = "application/json")
-		public PersonneDto update(@RequestBody PersonneDto pDto) throws Exception{
-			return personneService.saveOrUpdate(pDto);
+		public ResponseEntity<PersonneDto> update(@RequestBody PersonneDto pDto) throws Exception{
+
+			return ResponseEntity
+					.status(HttpStatus.OK)
+					.body( personneService.saveOrUpdate(pDto));
 		}
 		
 		
